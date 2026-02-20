@@ -32,6 +32,10 @@ test-php-unit-dbg:         ## Run php unit tests using phpdbg
 test-php-unit-dbg: vendor/bin/phpunit
 	$(PHPUNITDBG) --configuration ./phpunit.xml --testsuite TarStreamer
 
+.PHONY: test-php-integration
+test-php-integration:      ## Run php integration tests
+	@echo "No integration tests defined"
+
 .PHONY: test-php-style
 test-php-style:            ## Run php-cs-fixer and check owncloud code-style
 test-php-style: vendor-bin/owncloud-codestyle/vendor
@@ -51,6 +55,10 @@ test-php-phan: vendor-bin/phan/vendor
 test-php-phpstan:          ## Run phpstan
 test-php-phpstan: vendor-bin/phpstan/vendor
 	$(PHPSTAN) analyse --memory-limit=4G --configuration=./phpstan.neon --no-progress --level=5 src
+
+.PHONY: test-lint
+test-lint:                 ## Run php lint
+	find . -name "*.php" -not -path "./vendor/*" -not -path "./vendor-bin/*" -exec php -l {} +
 
 .PHONY: clean-deps
 clean-deps:
