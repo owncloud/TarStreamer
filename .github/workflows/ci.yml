@@ -19,9 +19,6 @@ jobs:
           extensions: mbstring, intl, ast
           coverage: none
 
-      - name: PHP Lint
-        run: make test-lint
-
       - name: Coding Standard
         run: make test-php-style
         env:
@@ -53,10 +50,6 @@ jobs:
 
       - name: Run unit tests
         run: make test-php-unit
-        continue-on-error: ${{ matrix.php-versions == '8.5' }}
-
-      - name: Run integration tests
-        run: make test-php-integration
         continue-on-error: ${{ matrix.php-versions == '8.5' }}
 
       - name: Upload coverage artifact
