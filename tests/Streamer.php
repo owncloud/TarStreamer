@@ -149,6 +149,20 @@ class Streamer extends TestCase {
 		$this->assertContains($expectedDisposition, $headers);
 	}
 
+	/**
+	 * Clients that send no User-Agent (scripts, monitoring) must get the regular headers.
+	 *
+	 * @preserveGlobalState disabled
+	 * @runInSeparateProcess
+	 */
+	public function testSendHeadersWithoutUserAgent() {
+		unset($_SERVER['HTTP_USER_AGENT']);
+		$this->streamer->sendHeaders();
+		$headers = xdebug_get_headers();
+		$this->assertContains('Content-Type: application/x-tar', $headers);
+		$this->assertContains('Content-Disposition: attachment; filename*=UTF-8\'\'archive.tar; filename="archive.tar"', $headers);
+	}
+
 	private function assertFileInTar($file) {
 		$elem = $this->getElementFromTar($file);
 		$this->assertNotNull($elem);

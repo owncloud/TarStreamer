@@ -69,8 +69,9 @@ class TarStreamer {
 			'Content-Transfer-Encoding' => 'binary',
 		];
 
-		// Use UTF-8 filenames when not using Internet Explorer
-		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0) {
+		// Use UTF-8 filenames when not using Internet Explorer; clients may send no User-Agent at all
+		$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+		if (strpos($userAgent, 'MSIE') > 0) {
 			header('Content-Disposition: attachment; filename="' . rawurlencode($archiveName) . '"');
 		} else {
 			header('Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode($archiveName)
